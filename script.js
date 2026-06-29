@@ -14,6 +14,8 @@ var PressRight = 0;
 var PressForward = 0;
 var PressBack = 0;
 var PressUp = 0;
+var Interval = 10;
+
 
 //Key pressed
 document.addEventListener("keydown", (event) => {
@@ -32,6 +34,10 @@ document.addEventListener("keydown", (event) => {
 	if (event.keyCode == 32){
 		PressUp = 1;
 	}
+    if(event.key == "z"){
+        Interval = 300;
+        setInterval(Interval);
+    }
 })
 
 //Key released
@@ -51,6 +57,10 @@ document.addEventListener("keyup", (event) => {
 	if (event.keyCode == 32){
 		PressUp = 0;
 	}
+    if(event.key == "z"){
+        Interval = 10;
+        setInterval(Interval);
+    }
 })
 
 var pawn = new player(0,0,0,0,0);
@@ -61,12 +71,13 @@ function update(){
 	dx = PressRight - PressLeft;
 	dz = - (PressForward - PressBack);
 	dy = - PressUp;
-    console.log(PressRight);
+    //console.log(PressRight);
     //console.log(PressBack);
     //console.log(PressUp);
     //console.log(PressRight);
     //console.log(PressLeft);
     //console.log(PressForward);
+    console.log(Interval);
     
 
     //add movements to the coordinates
@@ -79,4 +90,5 @@ function update(){
    	world.style.transform = "translate3d(" + (-pawn.x) + "px," + (-pawn.y) + "px," + (-pawn.z) + "px)";
 }
 
-TimerGame = setInterval(update, 10);
+TimerGame = setInterval(update, 500);
+//TimerSpeedUp = setInterval(update, 20);
