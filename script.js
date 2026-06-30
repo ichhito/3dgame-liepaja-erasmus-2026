@@ -116,6 +116,10 @@ function update(){
 	if(lock){
     pawn.rx = pawn.rx + drx;
     pawn.ry += dry;
+	
+	//limitation for cases that tries to go down/up too much
+    if(pawn.rx > 90) pawn.rx = 90;
+    if(pawn.rx < -90) pawn.rx = -90;
 	}
     //change coordinates of the world
     transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
@@ -125,7 +129,7 @@ function update(){
 function reset(){
     pawn.x = pawn.y = pawn.z = pawn.rx = pawn.ry = MouseX = MouseY = 0;
     transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
-	
+
 }
 
 //auxiliary method 
