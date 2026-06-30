@@ -16,6 +16,7 @@ var PressBack = 0;
 var PressUp = 0;
 var MouseX = 0;
 var MouseY = 0;
+var speed = 1;
 
 //Key pressed
 document.addEventListener("keydown", (event) => {
@@ -34,10 +35,9 @@ document.addEventListener("keydown", (event) => {
 	if (event.keyCode == 32){
 		PressUp = 1;
 	}
-    // if(event.key == "z"){
-    //     Interval = 300;
-    //     setInterval(Interval);
-    // }
+    if(event.key == "z"){
+        speed = 3;
+    }
 	if (event.key == "r"){
 	    reset();
 	}
@@ -60,10 +60,9 @@ document.addEventListener("keyup", (event) => {
 	if (event.keyCode == 32){
 		PressUp = 0;
 	}
-    // if(event.key == "z"){
-    //     Interval = 10;
-    //     setInterval(Interval);
-    // }
+    if(event.key == "z"){
+        speed = 1;
+    }
 	if (event.key == "r"){
 		reset();
 	}
@@ -79,9 +78,9 @@ var world = document.getElementById("world");
 
 function update(){
     //count movement
-	dx = PressRight - PressLeft;
-	dz = - (PressForward - PressBack);
-	dy = - PressUp;
+	dx = (PressRight - PressLeft) * speed;
+	dz = - (PressForward - PressBack) * speed;
+	dy = - PressUp * speed;
     drx = MouseX;
     dry = MouseY;
     //console.log(PressRight);
@@ -102,7 +101,6 @@ function update(){
 
     //change coordinates of the world
     transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
-   	//world.style.transform = "rotateX(" + 0 + "deg)" + "rotateY(" + 0"deg)" + "translate3d(" + (-pawn.x) + "px," + (-pawn.y) + "px," + (-pawn.z) + "px)";
 }
 
 function reset(){
@@ -112,7 +110,6 @@ function reset(){
     pawn.rx = 0;
     pawn.ry = 0;
     transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
-	//world.style.transform = "translate3d(" + (-pawn.x) + "px," + (-pawn.y) + "px," + (-pawn.z) + "px)";
 }
 
 function transform(pawnX, pawnY, pawnZ, pawnRX, pawnRY){
