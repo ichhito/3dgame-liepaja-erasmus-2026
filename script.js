@@ -99,8 +99,8 @@ function update(){
 	dx = ((PressRight - PressLeft) * Math.cos(pawn.ry * deg) - (PressForward - PressBack) * Math.sin(pawn.ry * deg)) * speed;
 	dz = (-(PressRight - PressLeft) * Math.sin(pawn.ry * deg) - (PressForward - PressBack) * Math.cos(pawn.ry * deg)) * speed;
 	dy = - PressUp * speed;
-    dry = - MouseY;
-    drx = MouseX;
+    dry = -MouseX * MouseSens;
+    drx = MouseY * MouseSens;
     MouseX = MouseY = 0;
     console.log(drx);
     
@@ -115,22 +115,24 @@ function update(){
 	pawn.z = pawn.z + dz;
 	if(lock){
     pawn.rx = pawn.rx + drx;
-    pawn.ry = pawn.ry + dry;
+    pawn.ry += dry;
 	}
     //change coordinates of the world
-    transform(pawn.x, pawn.y, pawn.z, pawn.ry, pawn.rx);
+    transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
+
 }
 
 function reset(){
     pawn.x = pawn.y = pawn.z = pawn.rx = pawn.ry = MouseX = MouseY = 0;
-    transform(pawn.x, pawn.y, pawn.z, pawn.ry, pawn.rx);
+    transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
+	
 }
 
 //auxiliary method 
 function transform(pawnX, pawnY, pawnZ, pawnRX, pawnRY){
        	world.style.transform =
         "translateZ(600px)" + 
-        "rotateX(" + pawnRX + "deg)" + "rotateY(" + pawnRY + "deg)" +
+        "rotateX(" + (-pawnRX) + "deg)" + "rotateY(" + (-pawnRY) + "deg)" +
         "translate3d(" + (-pawnX) + "px," + (-pawnY) + "px," + (-pawnZ) + "px)";
 }
 
