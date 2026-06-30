@@ -18,6 +18,7 @@ var MouseX = 0;
 var MouseY = 0;
 var MouseSens = 0.2; //Sensibility
 var speed = 1;
+var degree = Math.PI / 180;
 
 //Key pressed
 document.addEventListener("keydown", (event) => {
@@ -69,6 +70,11 @@ document.addEventListener("keyup", (event) => {
 	}
 })
 
+//If the mouse is pressed
+container.onclick = function(){
+    container.requestPointerLock();
+}
+
 //mouse movement
 document.addEventListener("mousemove", (event) =>{
     MouseX = event.movementX * MouseSens;
@@ -80,14 +86,18 @@ var world = document.getElementById("world");
 
 function update(){
     //count movement
-	dx = (PressRight - PressLeft) * speed;
-	dz = - (PressForward - PressBack) * speed;
+	dx = ((PressRight - PressLeft) * Math.cos(pawn.ry * degree) - (PressForward - PressBack) * Math.sin(pawn.ry * degree)) * speed;
+	dz =  (-(PressRight - PressLeft) * Math.sin(pawn.ry * degree) - (PressForward - PressBack) * Math.cos(pawn.ry * degree)) * speed;
 	dy = - PressUp * speed;
     dry = - MouseY;
     drx = MouseX;
     MouseX = MouseY = 0;
     console.log(drx);
     
+    //old movements
+    //dx = ((PressRight - PressLeft) * speed);
+    // dz = - (PressForward - PressBack) * speed;
+	// dy = - PressUp * speed;
 
     //add movements to the coordinates
 	pawn.x = pawn.x + dx;
