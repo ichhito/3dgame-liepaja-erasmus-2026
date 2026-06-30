@@ -1,10 +1,14 @@
-function player(x,z,y,rx,ry){
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.rx = rx;
-    this.ry = ry;
+//Global
+var deg = Math.PI / 180;
+
+function player(x,y,z,rx,ry){
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.rx = rx;
+	this.ry = ry;
 }
+	
 
 
 //Variables for movement
@@ -18,7 +22,9 @@ var MouseX = 0;
 var MouseY = 0;
 var MouseSens = 0.2; //Sensibility
 var speed = 1;
-var degree = Math.PI / 180;
+var lock = false;
+
+var container = document.getElementById("container");
 
 //Key pressed
 document.addEventListener("keydown", (event) => {
@@ -72,13 +78,17 @@ document.addEventListener("keyup", (event) => {
 
 //If the mouse is pressed
 container.onclick = function(){
-    container.requestPointerLock();
-}
+	container.requestPointerLock();
+}	
+
+document.addEventListener("pointerlockchange", (event) => {
+	lock = !lock;
+})
 
 //mouse movement
-document.addEventListener("mousemove", (event) =>{
-    MouseX = event.movementX * MouseSens;
-    MouseY = event.movementY * MouseSens;
+document.addEventListener("mousemove", (event) => {
+	MouseX = event.movementX;
+	MouseY = event.movementY;
 })
 
 var pawn = new player(0,0,0,0,0);
@@ -86,8 +96,8 @@ var world = document.getElementById("world");
 
 function update(){
     //count movement
-	dx = ((PressRight - PressLeft) * Math.cos(pawn.ry * degree) - (PressForward - PressBack) * Math.sin(pawn.ry * degree)) * speed;
-	dz =  (-(PressRight - PressLeft) * Math.sin(pawn.ry * degree) - (PressForward - PressBack) * Math.cos(pawn.ry * degree)) * speed;
+	dx = ((PressRight - PressLeft) * Math.cos(pawn.ry * deg) - (PressForward - PressBack) * Math.sin(pawn.ry * deg)) * speed;
+	dz = (-(PressRight - PressLeft) * Math.sin(pawn.ry * deg) - (PressForward - PressBack) * Math.cos(pawn.ry * deg)) * speed;
 	dy = - PressUp * speed;
     dry = - MouseY;
     drx = MouseX;
@@ -103,9 +113,10 @@ function update(){
 	pawn.x = pawn.x + dx;
 	pawn.y = pawn.y + dy;
 	pawn.z = pawn.z + dz;
+	if(lock){
     pawn.rx = pawn.rx + drx;
     pawn.ry = pawn.ry + dry;
-
+	}
     //change coordinates of the world
     transform(pawn.x, pawn.y, pawn.z, pawn.ry, pawn.rx);
 }
@@ -118,7 +129,7 @@ function reset(){
 //auxiliary method 
 function transform(pawnX, pawnY, pawnZ, pawnRX, pawnRY){
        	world.style.transform =
-        "translateZ(200px)" + 
+        "translateZ(600px)" + 
         "rotateX(" + pawnRX + "deg)" + "rotateY(" + pawnRY + "deg)" +
         "translate3d(" + (-pawnX) + "px," + (-pawnY) + "px," + (-pawnZ) + "px)";
 }
