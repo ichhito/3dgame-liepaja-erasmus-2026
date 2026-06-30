@@ -20,16 +20,16 @@ var speed = 1;
 
 //Key pressed
 document.addEventListener("keydown", (event) => {
-	if (event.key == "ArrowLeft"){
+	if (event.key == "a"){
 		PressLeft = 1;
 	}
-	if (event.key == "ArrowRight"){
+	if (event.key == "d"){
 		PressRight = 1;
 	}
-	if (event.key == "ArrowUp"){
+	if (event.key == "w"){
 		PressForward = 1;
 	}
-	if (event.key == "ArrowDown"){
+	if (event.key == "s"){
 		PressBack = 1;
 	}
 	if (event.keyCode == 32){
@@ -45,16 +45,16 @@ document.addEventListener("keydown", (event) => {
 
 //Key released
 document.addEventListener("keyup", (event) => {
-	if (event.key == "ArrowLeft"){
+	if (event.key == "a"){
 		PressLeft = 0;
 	}
-	if (event.key == "ArrowRight"){
+	if (event.key == "d"){
 		PressRight = 0;
 	}
-	if (event.key == "ArrowUp"){
+	if (event.key == "w"){
 		PressForward = 0;
 	}
-	if (event.key == "ArrowDown"){
+	if (event.key == "s"){
 		PressBack = 0;
 	}
 	if (event.keyCode == 32){
@@ -68,6 +68,7 @@ document.addEventListener("keyup", (event) => {
 	}
 })
 
+//mouse movement
 document.addEventListener("mousemove", (event) =>{
     MouseX = event.movementX;
     MouseY = event.movementY;
@@ -81,15 +82,10 @@ function update(){
 	dx = (PressRight - PressLeft) * speed;
 	dz = - (PressForward - PressBack) * speed;
 	dy = - PressUp * speed;
+    dry = - MouseY;
     drx = MouseX;
-    dry = MouseY;
-    //console.log(PressRight);
-    //console.log(PressBack);
-    //console.log(PressUp);
-    //console.log(PressRight);
-    //console.log(PressLeft);
-    //console.log(PressForward);
-    //console.log(Interval);
+    MouseX = MouseY = 0;
+    console.log(drx);
     
 
     //add movements to the coordinates
@@ -100,23 +96,20 @@ function update(){
     pawn.ry = pawn.ry + dry;
 
     //change coordinates of the world
-    transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
+    transform(pawn.x, pawn.y, pawn.z, pawn.ry, pawn.rx);
 }
 
 function reset(){
-    pawn.x = 0;
-	pawn.y = 0;
-	pawn.z = 0;
-    pawn.rx = 0;
-    pawn.ry = 0;
-    transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
+    pawn.x = pawn.y = pawn.z = pawn.rx = pawn.ry = MouseX = MouseY = 0;
+    transform(pawn.x, pawn.y, pawn.z, pawn.ry, pawn.rx);
 }
 
+//auxiliary method 
 function transform(pawnX, pawnY, pawnZ, pawnRX, pawnRY){
-       	world.style.transform = "rotateX(" + pawnRX + "deg)" 
-        + "rotateY(" + pawnRY + "deg)" + "translate3d(" 
-        + (-pawnX) + "px," + (-pawnY) + "px," + (-pawnZ) + "px)";
+       	world.style.transform =
+        "translateZ(200px)" + 
+        "rotateX(" + pawnRX + "deg)" + "rotateY(" + pawnRY + "deg)" +
+        "translate3d(" + (-pawnX) + "px," + (-pawnY) + "px," + (-pawnZ) + "px)";
 }
 
 TimerGame = setInterval(update, 10);
-//TimerSpeedUp = setInterval(update, 20);

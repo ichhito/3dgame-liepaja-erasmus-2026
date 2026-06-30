@@ -10,7 +10,7 @@
 	position:absolute;
 	width:inherit;
 	height:inherit;
-	/* background-color:#C0FFFF; */
+	/* background-color:#7c8bff; */
 	/* transform:translate3d(200px,100px,-500px) rotateX(30deg) rotateY(20deg) rotateZ(50deg); */
     transform-style: preserve-3d;
 }
@@ -21,7 +21,9 @@
     position: absolute;
     width: 200px;
     height: 200px;
-    background-color: #c32d2d;
+    /* background-image : url("square.png"); */
+    /* background-color: #c32d2d; */
+    background: linear-gradient(to bottom, #3498db, #8e44ad);
     transform : translate(-50%, -50%) rotateY(30deg);
     /* Move the item */
     left : 600px;
