@@ -16,6 +16,7 @@ var PressBack = 0;
 var PressUp = 0;
 var MouseX = 0;
 var MouseY = 0;
+var MouseSens = 0.2; //Sensibility
 var speed = 1;
 
 //Key pressed
@@ -70,8 +71,8 @@ document.addEventListener("keyup", (event) => {
 
 //mouse movement
 document.addEventListener("mousemove", (event) =>{
-    MouseX = event.movementX;
-    MouseY = event.movementY;
+    MouseX = event.movementX * MouseSens;
+    MouseY = event.movementY * MouseSens;
 })
 
 var pawn = new player(0,0,0,0,0);
