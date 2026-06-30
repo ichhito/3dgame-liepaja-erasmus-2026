@@ -38,6 +38,9 @@ document.addEventListener("keydown", (event) => {
         Interval = 300;
         setInterval(Interval);
     }
+	if (event.key == "r"){
+	    reset();
+	}
 })
 
 //Key released
@@ -61,6 +64,9 @@ document.addEventListener("keyup", (event) => {
         Interval = 10;
         setInterval(Interval);
     }
+	if (event.key == "r"){
+		reset();
+	}
 })
 
 var pawn = new player(0,0,0,0,0);
@@ -90,5 +96,12 @@ function update(){
    	world.style.transform = "translate3d(" + (-pawn.x) + "px," + (-pawn.y) + "px," + (-pawn.z) + "px)";
 }
 
-TimerGame = setInterval(update, 500);
+function reset(){
+    pawn.x = 0;
+	pawn.y = 0;
+	pawn.z = 0;
+	world.style.transform = "translate3d(" + (-pawn.x) + "px," + (-pawn.y) + "px," + (-pawn.z) + "px)";
+}
+
+TimerGame = setInterval(update, 10);
 //TimerSpeedUp = setInterval(update, 20);
