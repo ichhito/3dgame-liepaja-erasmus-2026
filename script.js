@@ -101,7 +101,7 @@ function update(){
     pawn.ry = pawn.ry + dry;
 
     //change coordinates of the world
-    transform(pawn.x, pawn.y, pawn.z);
+    transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
    	//world.style.transform = "rotateX(" + 0 + "deg)" + "rotateY(" + 0"deg)" + "translate3d(" + (-pawn.x) + "px," + (-pawn.y) + "px," + (-pawn.z) + "px)";
 }
 
@@ -109,12 +109,16 @@ function reset(){
     pawn.x = 0;
 	pawn.y = 0;
 	pawn.z = 0;
-    transform(pawn.x, pawn.y, pawn.z);
+    pawn.rx = 0;
+    pawn.ry = 0;
+    transform(pawn.x, pawn.y, pawn.z, pawn.rx, pawn.ry);
 	//world.style.transform = "translate3d(" + (-pawn.x) + "px," + (-pawn.y) + "px," + (-pawn.z) + "px)";
 }
 
-function transform(pawnX, pawnY, pawnZ){
-       	world.style.transform = "rotateX(" + 0 + "deg)" + "rotateY(" + 0 + "deg)" + "translate3d(" + (-pawnX) + "px," + (-pawnY) + "px," + (-pawnZ) + "px)";
+function transform(pawnX, pawnY, pawnZ, pawnRX, pawnRY){
+       	world.style.transform = "rotateX(" + pawnRX + "deg)" 
+        + "rotateY(" + pawnRY + "deg)" + "translate3d(" 
+        + (-pawnX) + "px," + (-pawnY) + "px," + (-pawnZ) + "px)";
 }
 
 TimerGame = setInterval(update, 10);
