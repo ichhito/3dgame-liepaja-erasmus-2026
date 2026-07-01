@@ -9,6 +9,19 @@ function player(x,y,z,rx,ry){
 	this.ry = ry;
 }
 	
+var map = [
+	[0,0,-1000,0,0,0,2000,200,"rgb(255, 151, 53)"], //Front wall
+	[0,0,1000,0,0,0,2000,200,"rgb(255, 151, 53)"], //Behind wall
+	[1000,0,0,0,90,0,2000,200,"rgb(255, 151, 53)"], //right wall
+	[-1000,0,0,0,-90,0,2000,200,"rgb(255, 151, 53)"], //left wall
+	[0,100,0,90,0,0,2000,2000,"#333333"], //ground
+
+	[0,0,-500,0,0,0,1000,200,"rgb(116, 127, 255)"], //Front wall inf
+	[0,0,500,0,0,0,1000,200,"rgb(116, 127, 255)"], //behind inf
+	[500,0,0,0,90,0,1000,200,"rgb(116, 127, 255)"], //right inf
+	[-500,0,0,0,-90,0,1000,200,"rgb(116, 127, 255)"] //left inf
+
+]
 
 
 //Variables for movement
@@ -28,16 +41,16 @@ var container = document.getElementById("container");
 
 //Key pressed
 document.addEventListener("keydown", (event) => {
-	if (event.key == "a"){
+	if (event.key == "a" || event.key == "ArrowLeft"){
 		PressLeft = 1;
 	}
-	if (event.key == "d"){
+	if (event.key == "d" || event.key == "ArrowRight"){
 		PressRight = 1;
 	}
-	if (event.key == "w"){
+	if (event.key == "w" || event.key == "ArrowUp" ){
 		PressForward = 1;
 	}
-	if (event.key == "s"){
+	if (event.key == "s" || event.key == "ArrowDown"){
 		PressBack = 1;
 	}
 	if (event.keyCode == 32){
@@ -45,6 +58,7 @@ document.addEventListener("keydown", (event) => {
 	}
     if(event.key == "z"){
         speed = 3;
+
     }
 	if (event.key == "r"){
 	    reset();
@@ -53,16 +67,16 @@ document.addEventListener("keydown", (event) => {
 
 //Key released
 document.addEventListener("keyup", (event) => {
-	if (event.key == "a"){
+	if (event.key == "a" || event.key == "ArrowLeft"){
 		PressLeft = 0;
 	}
-	if (event.key == "d"){
+	if (event.key == "d" || event.key == "ArrowRight"){
 		PressRight = 0;
 	}
-	if (event.key == "w"){
+	if (event.key == "w" || event.key == "ArrowUp" ){
 		PressForward = 0;
 	}
-	if (event.key == "s"){
+	if (event.key == "s" || event.key == "ArrowDown"){
 		PressBack = 0;
 	}
 	if (event.keyCode == 32){
@@ -102,7 +116,6 @@ function update(){
     dry = -MouseX * MouseSens;
     drx = MouseY * MouseSens;
     MouseX = MouseY = 0;
-    console.log(drx);
     
     //old movements
     //dx = ((PressRight - PressLeft) * speed);
@@ -140,4 +153,25 @@ function transform(pawnX, pawnY, pawnZ, pawnRX, pawnRY){
         "translate3d(" + (-pawnX) + "px," + (-pawnY) + "px," + (-pawnZ) + "px)";
 }
 
+function CreateNewWorld(){
+	for(let i = 0; i < map.length; i++){
+		//create rectangles and styles
+		let newElement = document.createElement("div");
+		newElement.className = "square";
+		newElement.id = "square" + i;
+		newElement.style.width = map[i][6] + "px";
+		newElement.style.height = map[i][7] + "px";
+		newElement.style.background = map[i][8];
+		newElement.style.transform =
+			"translate3d(" + (map[i][0] - map[i][6]/2) + "px, " +
+			(map[i][1] - map[i][7]/2) + "px, " +
+			map[i][2] + "px) " +
+			"rotateX(" + map[i][3] + "deg) " +
+			"rotateY(" + map[i][4] + "deg) " +
+			"rotateZ(" + map[i][5] + "deg)";
+
+			world.append(newElement);
+	}
+}
+CreateNewWorld();
 TimerGame = setInterval(update, 10);

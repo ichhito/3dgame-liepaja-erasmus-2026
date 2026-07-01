@@ -1,3 +1,8 @@
+:root{
+    --left: 600px;
+    --top: 400px;
+}
+
 #container{
 	position:absolute;
 	width:1200px;
@@ -23,10 +28,11 @@
     width: 200px;
     height: 200px;
     background: linear-gradient(to bottom, #3498db, #8e44ad);
+        /* background-image: url("square.png"); */
     transform : translate(-50%, -50%) rotateY(30deg);
     /* Move the item */
-    left : 600px;
-    top : 400px;
+    left : var(--left);
+    top : var(--top);
 }
 
 #square2{
@@ -35,7 +41,13 @@
     height: 1000px;
     background: linear-gradient(to bottom, #b7db33, #ad4343);
     transform: translate(-50%, -50%) rotateX(90deg) translateZ(-100px);
-    left : 600px;
-    top : 400px;
+    left : var(--left);
+    top : var(--top);
 
+}
+
+.square{
+    position: absolute;
+    left: var(--left);
+    top: var(--top);
 }
