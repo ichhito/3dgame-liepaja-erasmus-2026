@@ -1,6 +1,7 @@
 //Global
 var deg = Math.PI / 180;
 
+
 function player(x,y,z,rx,ry){
 	this.x = x;
 	this.y = y;
@@ -8,22 +9,66 @@ function player(x,y,z,rx,ry){
 	this.rx = rx;
 	this.ry = ry;
 }
-	
+
+var wall = "./resources/wall.jpg";
+var floor = "./resources/floor.jpeg";
+
+
+// Map entry format: [x, y, z, rx, ry, rz, width, height, color]
+//
+//  x, y, z   — center position in world space
+//                x: left(-) / right(+)   center = 0
+//                y: up(-)   / down(+)    eye level = 0
+//                z: front(-) / back(+)   player start = 0
+//
+//  rx, ry, rz — rotation in degrees
+//                rx: tilt up/down  — use 90 for floor or ceiling
+//                ry: turn left/right — use 90 (right wall) or -90 (left wall)
+//                rz: roll           — usually 0
+//
+//  width, height — size of the rectangle in pixels
+//
+//  color         — any CSS color string (used as fallback if no texture)
+//  texture       — (optional) path to an image, e.g. "./resources/wall.jpg"
+//
+// Quick recipes:
+//   Front/back wall : ry=0,  place at z=-N (front) or z=+N (back)
+//   Right wall      : ry=90, place at x=+N
+//   Left wall       : ry=-90,place at x=-N
+//   Floor           : rx=90, place at y=+N  (positive y = below eye)
+//   Ceiling         : rx=90, place at y=-N
+//   Wall with gap   : two entries side by side, e.g. x=-300,w=400 and x=+300,w=400
 var map = [
-	[0,0,-1000,0,0,0,2000,200,"rgb(255, 151, 53)"], //Front wall
-	[0,0,1000,0,0,0,2000,200,"rgb(255, 151, 53)"], //Behind wall
-	[1000,0,0,0,90,0,2000,200,"rgb(255, 151, 53)"], //right wall
-	[-1000,0,0,0,-90,0,2000,200,"rgb(255, 151, 53)"], //left wall
-	[0,100,0,90,0,0,2000,2000,"#333333"], //ground
+	// Outer room
+	[0,0,-1000,0,0,0,2000,200,"rgb(255, 151, 53)",wall], //Front wall
+	[0,0,1000,0,0,0,2000,200,"rgb(255, 151, 53)",wall],  //Behind wall
+	[1000,0,0,0,90,0,2000,200,"rgb(255, 151, 53)",wall], //Right wall
+	[-1000,0,0,0,-90,0,2000,200,"rgb(255, 151, 53)",wall],//Left wall
+	[0,100,0,90,0,0,2000,2000,"#333333",floor],           //Ground
 
-	[0,0,-500,0,0,0,1000,200,"rgb(116, 127, 255)"], //Front wall inf
+	// --- Maze inner walls ---
+	// Zigzag path: go left → north → right → north to reach front wall
+	//              go right → south → left → south to reach back wall
+	//
+	//   x: -1000  -400   0  +400  +1000
+	//
+	// z=-600  [==========]  GAP  [========]   outer front wall further north
+	// z=-300  [====]  GAP  [================]
+	//   z=0   ★ player start
+	// z=+300  [==========]  GAP  [========]
+	// z=+600  [====]  GAP  [================]   outer back wall further south
 
-	[0,0,500,0,0,0,1000,200,"rgb(116, 127, 255)"], //behind inf 1
-	[0,0,500,0,0,0,1000,200,"rgb(116, 127, 255)"], //behind inf 1
+	// z=-600: gap on right (x=+400 to +1000)
+	[-300,0,-600, 0,0,0, 1400,200,"#888",wall], // x=-1000 to x=+400
 
-	[500,0,0,0,90,0,1000,200,"rgb(116, 127, 255)"], //right inf
-	[-500,0,0,0,-90,0,1000,200,"rgb(116, 127, 255)"] //left inf
+	// z=-300: gap on left (x=-1000 to x=-400)
+	[300,0,-300,  0,0,0, 1400,200,"#888",wall], // x=-400 to x=+1000
 
+	// z=+300: gap on right (x=+400 to +1000)
+	[-300,0,300,  0,0,0, 1400,200,"#888",wall], // x=-1000 to x=+400
+
+	// z=+600: gap on left (x=-1000 to x=-400)
+	[300,0,600,   0,0,0, 1400,200,"#888",wall], // x=-400 to x=+1000
 ]
 
 
@@ -164,7 +209,16 @@ function CreateNewWorld(){
 		newElement.id = "square" + i;
 		newElement.style.width = map[i][6] + "px";
 		newElement.style.height = map[i][7] + "px";
-		newElement.style.background = map[i][8];
+		if(map[i][9]){
+			newElement.style.backgroundImage = "url('" + map[i][9] + "')";
+			newElement.style.backgroundSize = "cover";
+			newElement.style.backgroundColor = map[i][8];
+		} else if(typeof map[i][8] === "string" && map[i][8].startsWith(".")){
+			newElement.style.backgroundImage = "url('" + map[i][8] + "')";
+			newElement.style.backgroundSize = "cover";
+		} else {
+			newElement.style.background = map[i][8];
+		}
 		newElement.style.transform =
 			"translate3d(" + (map[i][0] - map[i][6]/2) + "px, " +
 			(map[i][1] - map[i][7]/2) + "px, " +
