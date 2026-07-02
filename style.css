@@ -48,6 +48,4 @@
 
 .square{
     position: absolute;
-    left: var(--left);
-    top: var(--top);
 }

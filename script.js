@@ -12,6 +12,7 @@ function player(x,y,z,rx,ry){
 
 var wall = "./resources/wall.jpg";
 var floor = "./resources/floor.jpeg";
+var coinTexture = "./resources/coin.png"
 
 
 // Map entry format: [x, y, z, rx, ry, rz, width, height, color]
@@ -67,8 +68,18 @@ var map = [
 	// z=+300: gap on right (x=+400 to +1000)
 	[-300,0,300,  0,0,0, 1400,200,"#888",wall], // x=-1000 to x=+400
 
-	// z=+600: gap on left (x=-1000 to x=-400)
+	// z=+600: gap on left (x= -1000 to x=-400)
 	[300,0,600,   0,0,0, 1400,200,"#888",wall], // x=-400 to x=+1000
+]
+
+var coins = [
+	[800,30,-800,0,0,0,50,50,"#FFFF00", coinTexture],
+	[-600,30,-100,0,0,0,50,50,"#FFFF00", coinTexture],
+	[200,30,200,0,0,0,50,50,"FFFF00", coinTexture]
+]
+
+var keys = [
+	
 ]
 
 
@@ -160,7 +171,9 @@ function update(){
     //count movement
 	dx = ((PressRight - PressLeft) * Math.cos(pawn.ry * deg) - (PressForward - PressBack) * Math.sin(pawn.ry * deg)) * speed;
 	dz = (-(PressRight - PressLeft) * Math.sin(pawn.ry * deg) - (PressForward - PressBack) * Math.cos(pawn.ry * deg)) * speed;
-	dy = - PressUp * speed;
+	//debug
+	//dy = - PressUp * speed;
+	dy = 0;
     dry = -MouseX * MouseSens;
     drx = MouseY * MouseSens;
     MouseX = MouseY = 0;
@@ -202,33 +215,38 @@ function transform(pawnX, pawnY, pawnZ, pawnRX, pawnRY){
 }
 
 function CreateNewWorld(){
-	for(let i = 0; i < map.length; i++){
-		//create rectangles and styles
+	CreateSquares(map,"map");
+}
+function CreateSquares(squares,string){
+	for(let i = 0; i < squares.length; i++){
+		
+		//create rectangles and styleS
 		let newElement = document.createElement("div");
-		newElement.className = "square";
-		newElement.id = "square" + i;
-		newElement.style.width = map[i][6] + "px";
-		newElement.style.height = map[i][7] + "px";
-		if(map[i][9]){
-			newElement.style.backgroundImage = "url('" + map[i][9] + "')";
+		newElement.className = string + " square";
+		newElement.id = string + i;
+		newElement.style.width = squares[i][6] + "px";
+		newElement.style.height = squares[i][7] + "px";
+		newElement.style.background = squares[i][8];
+		if(typeof squares[i][9] === "string"){
+			newElement.style.backgroundImage = "url('" + squares[i][9] + "')";
 			newElement.style.backgroundSize = "cover";
-			newElement.style.backgroundColor = map[i][8];
-		} else if(typeof map[i][8] === "string" && map[i][8].startsWith(".")){
-			newElement.style.backgroundImage = "url('" + map[i][8] + "')";
-			newElement.style.backgroundSize = "cover";
-		} else {
-			newElement.style.background = map[i][8];
+		} else if(typeof squares[i][9] === "number"){
+			newElement.style.opacity = squares[i][9];
 		}
 		newElement.style.transform =
-			"translate3d(" + (map[i][0] - map[i][6]/2) + "px, " +
-			(map[i][1] - map[i][7]/2) + "px, " +
-			map[i][2] + "px) " +
-			"rotateX(" + map[i][3] + "deg) " +
-			"rotateY(" + map[i][4] + "deg) " +
-			"rotateZ(" + map[i][5] + "deg)";
-
-			world.append(newElement);
+			"translate3d(" + (600 - squares[i][6]/2 + squares[i][0]) + "px," +
+			(400 - squares[i][7]/2 + squares[i][1]) + "px," + 
+			squares[i][2] + "px)" + 
+			"rotateX(" + squares[i][3] + "deg)" + 
+			"rotateY(" + squares[i][4] + "deg)" + 
+			"rotateZ(" + squares[i][5] + "deg)";
+			
+		//insert rectangles into the world
+		world.append(newElement);
 	}
 }
+
 CreateNewWorld();
+CreateSquares(coins, "coin");
+CreateSquares(keys, "key");
 TimerGame = setInterval(update, 10);
