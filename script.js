@@ -13,7 +13,11 @@ function player(x,y,z,rx,ry){
 var wall = "./resources/wall.jpg";
 var floor = "./resources/floor.jpeg";
 var coinTexture = "./resources/coin.png"
+var keyTexture = "./resources/key.png"
+var coinSFX = new Audio('./resources/coinSFX.mp3');
 
+var coinCount = 0;
+var keyCount = 0;
 
 // Map entry format: [x, y, z, rx, ry, rz, width, height, color]
 //
@@ -73,13 +77,15 @@ var map = [
 ]
 
 var coins = [
-	[800,30,-800,0,0,0,50,50,"#FFFF00", coinTexture],
-	[-600,30,-100,0,0,0,50,50,"#FFFF00", coinTexture],
-	[200,30,200,0,0,0,50,50,"FFFF00", coinTexture]
+	[800,30,-800,0,0,0,50,50,"", coinTexture],
+	[-600,30,-100,0,0,0,50,50,"", coinTexture],
+	[200,30,200,0,0,0,50,50,"", coinTexture]
 ]
 
 var keys = [
-	
+	[500,30,-500,0,0,0,50,50,"", keyTexture],
+	[-200,30,200,0,0,0,50,50,"", keyTexture],
+	[400,30,-100,0,0,0,50,50,"", keyTexture]
 ]
 
 
@@ -166,6 +172,7 @@ document.addEventListener("mousemove", (event) => {
 
 var pawn = new player(0,0,0,0,0);
 var world = document.getElementById("world");
+var hud = document.getElementById("hud");
 
 function update(){
     //count movement
@@ -246,7 +253,50 @@ function CreateSquares(squares,string){
 	}
 }
 
+function interact(squares, string){
+	for(i = 0; i < squares.length; i++){
+		let dis = (squares[i][0] - pawn.x) ** 2 + (squares[i][1] - pawn.y)**2 + (squares[i][2] - pawn.z)**2;
+		let is = (squares[i][6]) **2;
+		if(dis < is){
+			document.getElementById(string + i).style.display = "none";
+			squares[i][1] = 1000000;
+			if(string == "coin"){
+				coinCount += 1;
+				document.getElementById("coinCounter").innerHTML = coinCount;
+				coinSFX.play();
+			}
+			if(string == "key"){
+				keyCount += 1;
+			}
+		}
+	}
+}
+
+function rotate(squares,string,ra){
+	for(i = 0; i < squares.length; i++){
+		squares[i][4] = squares[i][4] + ra;
+		document.getElementById(string + i).style.transform =
+			"translate3d(" + (600 - squares[i][6]/2 + squares[i][0]) + "px, " +
+			(400 - squares[i][7]/2 + squares[i][1]) + "px, " +
+			squares[i][2] + "px)" +
+			"rotateX(" + squares[i][3] + "deg)" +
+			"rotateY(" + squares[i][4] + "deg)" +
+			"rotateZ(" + squares[i][5] + "deg)";
+	}
+}
+
 CreateNewWorld();
 CreateSquares(coins, "coin");
 CreateSquares(keys, "key");
-TimerGame = setInterval(update, 10);
+document.getElementById("coinCounter").innerHTML = coinCount;
+
+
+function Repeat(){
+	update();
+	interact(coins, "coin");
+	interact(keys, "key");
+	rotate(coins, "coin",0.5);
+	rotate(keys, "key",0.5);
+}
+
+TimerGame = setInterval(Repeat, 10);

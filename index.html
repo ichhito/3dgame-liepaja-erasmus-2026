@@ -10,18 +10,15 @@
     </HEAD>
 
     <BODY>
-        <p>WSAD/Flechas: movimiento</p>
-        <p>Espacio: Subir</p>
-        <p>R: Reset</p>
-        <p>Z: Correr</p>
+        <p>WASD/Arrows: Movement</p>
+        <p>R: Reset position</p>
+        <p>Z: Run</p>
         <div id = "container">
             <div id = "world">
-                <!-- <div id = "square1"> -->
-                <!-- </div> -->
-                <!-- <div id = "square2"> -->
-                    
-                <!-- </div> -->
-
+            </div>
+            <div id = "hud">
+                <p id = "coinCountHUD"><span>Coin count: <span id="coinCounter">0</span></span></p>
+                <progress id="timer" max="100" value="70"><span>70%</span></progress>
             </div>
         </div>
     </BODY>

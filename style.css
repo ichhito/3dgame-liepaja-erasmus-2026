@@ -21,7 +21,36 @@
     transform-style: preserve-3d;
 }
 
+#hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none; 
+    color: white;
+}
 
+#coinCountHUD{
+    text-align: center; 
+}
+
+#coinCountHUD span{
+  background-color: lightgrey;
+  color: black;
+  font-size: 40px
+}
+
+#timer{
+    display: block;
+    margin: 0 auto;
+}
+
+#timer span{
+  background-color: lightgrey;
+  color: black;
+}
 
 #square1{
     position: absolute;
