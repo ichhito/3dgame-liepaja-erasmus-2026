@@ -10,14 +10,12 @@ function player(x,y,z,rx,ry){
 	this.ry = ry;
 }
 
-var wall = "./resources/wall.jpg";
-var floor = "./resources/floor.jpeg";
-var coinTexture = "./resources/coin.png"
-var keyTexture = "./resources/key.png"
-var coinSFX = new Audio('./resources/coinSFX.mp3');
+var wall = "./resources/texture/wall.jpg";
+var floor = "./resources/texture/floor.jpeg";
+var coinTexture = "./resources/texture/coin.png"
+var keyTexture = "./resources/texture/key.png"
+var coinSFX = new Audio('./resources/sfx/coinSFX.mp3');
 
-var coinCount = 0;
-var keyCount = 0;
 
 // Map entry format: [x, y, z, rx, ry, rz, width, height, color]
 //
@@ -101,11 +99,18 @@ var MouseY = 0;
 var MouseSens = 0.2; //Sensibility
 var speed = 1;
 var lock = false;
+var canlock = false;
+
+var coinCount = 0;
+var keyCount = 0;
+var timeLeft = 100;
+
 
 var container = document.getElementById("container");
 
 //Key pressed
 document.addEventListener("keydown", (event) => {
+	if(canlock){
 	if (event.key == "a" || event.key == "ArrowLeft"){
 		PressLeft = 1;
 	}
@@ -128,6 +133,7 @@ document.addEventListener("keydown", (event) => {
 	if (event.key == "r"){
 	    reset();
 	}
+}
 })
 
 //Key released
@@ -157,7 +163,9 @@ document.addEventListener("keyup", (event) => {
 
 //If the mouse is pressed
 container.onclick = function(){
+	if(canlock){
 	container.requestPointerLock();
+	}
 }	
 
 document.addEventListener("pointerlockchange", (event) => {
@@ -297,6 +305,27 @@ function Repeat(){
 	interact(keys, "key");
 	rotate(coins, "coin",0.5);
 	rotate(keys, "key",0.5);
+	if(canlock && timeLeft > 0){
+		timeLeft -= 0.02; // 100 / (10ms * 500 ticks) = ~50 seconds
+		document.getElementById("timer").value = timeLeft;
+	}
 }
 
 TimerGame = setInterval(Repeat, 10);
+
+document.getElementById("button1").onclick = function(){
+    document.getElementById("menu1").style.display = "none";
+    document.getElementById("hud").style.display = "block";
+    canlock = true;
+    container.requestPointerLock();
+}
+
+document.getElementById("button2").onclick = function(){
+    document.getElementById("menu1").style.display = "none";
+    document.getElementById("menu2").style.display = "block";
+}
+
+document.getElementById("button3").onclick = function(){
+    document.getElementById("menu2").style.display = "none";
+    document.getElementById("menu1").style.display = "block";
+}

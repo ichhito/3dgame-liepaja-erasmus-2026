@@ -10,16 +10,35 @@
     </HEAD>
 
     <BODY>
-        <p>WASD/Arrows: Movement</p>
-        <p>R: Reset position</p>
-        <p>Z: Run</p>
         <div id = "container">
             <div id = "world">
             </div>
-            <div id = "hud">
+            <div id = "hud" style="display:none">
                 <p id = "coinCountHUD"><span>Coin count: <span id="coinCounter">0</span></span></p>
                 <progress id="timer" max="100" value="70"><span>70%</span></progress>
             </div>
+
+            <div id = "menu1" class="menu" style="display:block">
+                <div id = "button1" class = "button">
+                    <p>Start game</p>
+                </div>
+                <div id = "button2" class = "button">
+                    <p>Instruction</p>
+                    </div>
+            </div>
+
+            <div id = "menu2" class = "menu">
+                <p id = "instructions"><span>
+                <strong>Control</strong><br>
+                    WASD/Arrows: Movement<br>
+                    R: Reset position<br>
+                    Z: Run<br>
+                </span></p>
+                <div id = "button3" class = "button">
+                    <p>Back</p>
+                </div>
+                </div>
+
         </div>
     </BODY>
 </HTML>
