@@ -3,7 +3,7 @@
 
 <HTML>
     <HEAD>
-        <TITLE> 3D Game </TITLE>
+        <TITLE> Laberinto Fantasma </TITLE>
         <LINK rel = "stylesheet" href = "style.css">
         <meta charset = "utf-8">
             
@@ -14,28 +14,47 @@
             <div id = "world">
             </div>
             <div id = "hud" style="display:none">
-                <p id = "coinCountHUD"><span>Coin count: <span id="coinCounter">0</span></span></p>
-                <progress id="timer" max="100" value="70"><span>70%</span></progress>
+                <p id = "coinCountHUD"><span>Coins: <span id="coinCounter">0</span></span></p>
+                <p id = "keyCountHUD"><span>Keys: <span id="keyCounter">0</span>/<span id="keyTotal">3</span></span></p>
+                <progress id="timer" max="100" value="100"><span>100%</span></progress>
             </div>
 
             <div id = "menu1" class="menu" style="display:block">
                 <div id = "button1" class = "button">
-                    <p>Start game</p>
+                    <p>Start</p>
                 </div>
                 <div id = "button2" class = "button">
-                    <p>Instruction</p>
+                    <p>Instructions</p>
                     </div>
             </div>
 
             <div id = "menu2" class = "menu">
                 <p id = "instructions"><span>
+                <strong>Get all the keys and escape from the labyrinth!</strong><br>
+                    You can get <strong>coins</strong> for extra points...<br>
+                <strong>Objective</strong><br>
+                    Get all the keys and reach the green door<br><br>
                 <strong>Control</strong><br>
-                    WASD/Arrows: Movement<br>
-                    R: Reset position<br>
-                    Z: Run<br>
+                    WASD/Arrow: Move &nbsp; Mouse: Look<br>
+                    R: Return to the start point &nbsp; Z: Run<br>
                 </span></p>
                 <div id = "button3" class = "button">
-                    <p>Back</p>
+                    <p>Go back</p>
+                </div>
+                </div>
+
+            <div id = "menu3" class = "menu">
+                <p id = "winText"><span>You escaped!</span></p>
+                <p id = "winStats"><span></span></p>
+                <div id = "button4" class = "button">
+                    <p>Play again</p>
+                </div>
+                </div>
+
+            <div id = "menu4" class = "menu">
+                <p id = "loseText"><span>Time up!</span></p>
+                <div id = "button5" class = "button">
+                    <p>Start Again</p>
                 </div>
                 </div>
 
