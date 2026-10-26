@@ -4,7 +4,7 @@ Made during the 3D Game BIP course at Liepāja University (Latvia), 2026.
 
 ![gameplay](https://i.imgur.com/x7oyscA.gif)
 
-**▶ Play it here:** [https://ichhito.github.io/3dgame-liepaja-erasmus-2026/](https://ichhito.github.io/3dgame-liepaja-erasmus-2026/)
+**▶ Play it here:** [https://ichhito.github.io/3dgame-liepaja-erasmus-2026/](https://majestic-quokka-175c33.netlify.app/)
 
 ## Gameplay
 
