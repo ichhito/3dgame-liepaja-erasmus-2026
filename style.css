@@ -36,25 +36,77 @@
     color: white;
 }
 
-#coinCountHUD, #keyCountHUD{
-    text-align: center; 
-    margin: 6px 0;
+.hudTop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
 }
 
-#coinCountHUD span, #keyCountHUD span{
-  background-color: lightgrey;
-  color: black;
-  font-size: 40px
+.hudGroup{
+    display: flex;
+    gap: 14px;
 }
 
-#timer{
-    display: block;
-    margin: 0 auto;
+.hudItem{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    background-color: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    font-family: buttonFont;
+    font-size: 32px;
+    color: white;
 }
 
-#timer span{
-  background-color: lightgrey;
-  color: black;
+.hudIcon{
+    width: 32px;
+    height: 32px;
+}
+
+.hudDim{
+    color: #aaa;
+}
+
+#keyHUD.complete{
+    color: #7f7;
+    border-color: #3c3;
+    box-shadow: 0 0 12px rgba(60, 200, 60, 0.6);
+}
+
+#timerBar{
+    width: 220px;
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#timerFill{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #3ad, #5cf);
+}
+
+#timerText{
+    min-width: 56px;
+    text-align: right;
+}
+
+/* Less than 25% of the time left */
+#timerHUD.low #timerFill{
+    background: linear-gradient(90deg, #d33, #f66);
+}
+
+#timerHUD.low{
+    color: #f88;
+    animation: pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes pulse{
+    50% { transform: scale(1.05); }
 }
 
 .square{
@@ -82,21 +134,33 @@
     display: none;
 }
 
-#instructions span{
-  background-color: lightgrey;
-  color: black;
-  font-size: 34px
+#menuPause{
+    z-index: 20;                     /* above the HUD */
+    background-color: rgba(0, 0, 0, 0.6);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#winText span, #loseText span, #winStats span{
-  background-color: lightgrey;
-  color: black;
-  font-size: 40px;
+#menuPause .pauseTitle{
+    font-family: buttonFont;
+    font-size: 90px;
+    color: white;
+    margin: 0;
+    letter-spacing: 4px;
 }
 
-#winText span{
-  color: #1a7a1a;
+#menuPause .pauseHint{
+    font-size: 28px;
+    color: #ddd;
+    margin: 16px 0 0 0;
+    animation: blink 1.5s ease-in-out infinite;
 }
+
+@keyframes blink{
+    50% { opacity: 0.4; }
+}
+
 
 .button{
     position: absolute;
@@ -117,22 +181,172 @@
     font-size: 40px;
 }
 
-#button1{
-    top:100px;
-    left:150px;
+#menu1, #menu2, .endMenu{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#button2{
-    top: 450px;
-    left: 150px;
+#button1, #button2, #button3, #button4, #button5{
+    position: static;
+    width: 360px;
+    height: 80px;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#button3{
-    top:450px;
-    left: 150px;
+#button1 p, #button2 p, #button3 p, #button4 p, #button5 p{
+    margin: 0;
+    font-size: 36px;
 }
 
-#button4, #button5{
-    top: 480px;
-    left: 150px;
+#menu2{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.panel{
+    width: 700px;
+    padding: 30px 60px;
+    background-color: rgba(20, 20, 20, 0.9);
+    border: 2px solid #555;
+    border-radius: 20px;
+    color: white;
+}
+
+.panel h2{
+    font-family: buttonFont;
+    font-size: 44px;
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0 0 10px 0;
+}
+
+#menu2 .panel p{
+    font-size: 24px;
+    line-height: 1.5;
+    color: #ddd;
+    margin: 0 0 25px 0;
+}
+
+#menu2, .endMenu{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.controls{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 24px;
+    color: #ddd;
+}
+
+.controls td{
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+}
+
+.controls td:first-child{
+    width: 55%;
+    text-align: right;
+    padding-right: 30px;
+}
+
+kbd{
+    display: inline-block;
+    min-width: 28px;
+    padding: 2px 8px;
+    margin: 0 2px;
+    background-color: #eee;
+    color: #111;
+    border-radius: 6px;
+    border-bottom: 3px solid #999;
+    font-family: monospace;
+    font-size: 20px;
+    text-align: center;
+}
+
+#button3, #button4, #button5{
+    position: static;
+    width: 360px;
+    height: 80px;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#button3 p, #button4 p, #button5 p{
+    margin: 0;
+    font-size: 36px;
+}
+
+.endMenu .panel{
+    width: 560px;
+}
+
+.panel.win{ border-color: #3c3; }
+.panel.lose{ border-color: #c33; }
+
+.panel.win h2{
+    color: #7f7;
+    text-shadow: 0 0 16px rgba(60, 200, 60, 0.6);
+}
+
+.panel.lose h2{
+    color: #f77;
+    text-shadow: 0 0 16px rgba(220, 50, 50, 0.6);
+}
+
+.stats{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.stat{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    font-family: buttonFont;
+    font-size: 32px;
+    color: white;
+}
+
+.statLabel{
+    font-size: 22px;
+    color: #aaa;
+}
+
+.gameTitle{
+    font-family: buttonFont;
+    font-size: 110px;
+    letter-spacing: 6px;
+    color: white;
+    margin: 0;
+    text-shadow: 0 0 24px rgba(80, 170, 255, 0.6);
+}
+
+.menu .gameSubtitle{
+    font-size: 26px;
+    color: #bbb;
+    margin: 10px 0 30px 0;
+}
+
+.button.primary{
+    background-color: #3ad;
+    color: white;
+}
+
+.button.primary:hover{
+    background-color: #5cf;
 }
